@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/coffee")
@@ -17,6 +18,16 @@ public class CoffeeController {
     @GetMapping("/all")
     public List<Coffee> getAllCoffee() {
         return repository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Coffee getCoffee(@PathVariable Long id){
+        Optional<Coffee> coffee = repository.findById(id);
+
+        if(coffee.isPresent()){
+            return coffee.get();
+        }
+        return null;
     }
 
     @PostMapping("/create")
